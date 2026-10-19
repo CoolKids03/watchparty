@@ -341,8 +341,20 @@ function formatTime(seconds) {
 
 function getVideoId(input) {
   try {
-    var url = new URL(input.trim());
-    var host = url.hostname.replace(/^www\./, "").toLowerCase();
+    var value = String(input || "").trim();
+
+    if (!value) return "";
+
+    // Mendukung URL yang ditempel tanpa protokol.
+    if (!/^https?:\/\//i.test(value)) {
+      value = "https://" + value;
+    }
+
+    var url = new URL(value);
+    var host = url.hostname
+      .toLowerCase()
+      .replace(/^www\./, "");
+
     var id = "";
 
     if (host === "youtu.be") {
@@ -357,15 +369,22 @@ function getVideoId(input) {
         id = url.searchParams.get("v") || "";
       } else {
         var parts = url.pathname.split("/").filter(Boolean);
-        if (parts.length >= 2 &&
-            ["embed", "shorts", "live", "v"].indexOf(parts[0]) >= 0) {
+
+        if (
+          parts.length >= 2 &&
+          ["embed", "shorts", "live", "v"].includes(parts[0])
+        ) {
           id = parts[1];
         }
       }
     }
 
+    // Validasi ID video YouTube.
+    id = id.split(/[?&#]/)[0];
+
     return /^[A-Za-z0-9_-]{11}$/.test(id) ? id : "";
-  } catch (e) {
+  } catch (error) {
+    console.error("Gagal membaca tautan YouTube:", error);
     return "";
   }
 }
