@@ -1,7 +1,7 @@
 
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "watch-party-youtube",
+  "name": "watchparty",
   "main": "src/index.js",
   "compatibility_date": "2026-10-19",
   "durable_objects": {
