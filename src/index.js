@@ -342,7 +342,7 @@ function formatTime(seconds) {
 function getVideoId(input) {
   try {
     var url = new URL(input.trim());
-    var host = url.hostname.replace(/^www\\./, "").toLowerCase();
+    var host = url.hostname.replace(/^www\./, "").toLowerCase();
     var id = "";
 
     if (host === "youtu.be") {
