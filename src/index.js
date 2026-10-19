@@ -16,29 +16,30 @@ const PAGE = String.raw`<!DOCTYPE html>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#101116">
 <title>Watch Together</title>
+
 <style>
 :root {
   color-scheme: dark;
   --bg: #101116;
   --panel: #1a1b23;
-  --panel2: #22232e;
   --border: #30313d;
   --text: #f4f3fa;
   --muted: #a1a3b3;
   --accent: #a18aff;
-  --accentText: #191422;
   --green: #63d8a1;
 }
 * { box-sizing: border-box; }
+
 body {
   margin: 0;
   background: var(--bg);
   color: var(--text);
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont,
+               "Segoe UI", sans-serif;
   -webkit-tap-highlight-color: transparent;
 }
 button, input { font: inherit; }
-button { cursor: pointer; }
+
 .app {
   max-width: 620px;
   margin: 0 auto;
@@ -58,7 +59,7 @@ button { cursor: pointer; }
   place-items: center;
   flex-shrink: 0;
   border-radius: 15px;
-  color: var(--accentText);
+  color: #191422;
   background: var(--accent);
   font-size: 23px;
 }
@@ -66,9 +67,12 @@ button { cursor: pointer; }
 .brand h1 {
   font-size: 20px;
   margin: 0 0 3px;
-  letter-spacing: -.5px;
 }
-.brand p { margin: 0; color: var(--muted); font-size: 12px; }
+.brand p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 12px;
+}
 .connection {
   display: flex;
   align-items: center;
@@ -78,11 +82,14 @@ button { cursor: pointer; }
   white-space: nowrap;
 }
 .dot {
-  width: 8px; height: 8px; border-radius: 50%;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
   background: #e4b15c;
 }
 .dot.online { background: var(--green); }
 .dot.offline { background: #f16b76; }
+
 .card {
   background: var(--panel);
   border: 1px solid var(--border);
@@ -91,10 +98,10 @@ button { cursor: pointer; }
   margin-bottom: 14px;
 }
 .player-wrap {
-  background: #050507;
   position: relative;
   width: 100%;
   aspect-ratio: 16 / 9;
+  background: #050507;
 }
 #player, #player iframe {
   position: absolute;
@@ -111,9 +118,9 @@ button { cursor: pointer; }
   align-items: center;
   gap: 10px;
   color: var(--muted);
-  pointer-events: none;
   text-align: center;
   padding: 20px;
+  pointer-events: none;
 }
 .play-symbol {
   width: 54px;
@@ -127,47 +134,22 @@ button { cursor: pointer; }
 }
 .player-meta { padding: 14px; }
 .video-title { font-size: 15px; font-weight: 650; }
-.video-subtitle { font-size: 12px; color: var(--muted); margin-top: 5px; }
+.video-subtitle {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 5px;
+}
 .section-title {
   font-size: 15px;
   font-weight: 700;
   margin: 22px 2px 11px;
 }
-.controls { padding: 14px; }
-.time-row {
+.video-form {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   gap: 10px;
-  color: var(--muted);
-  font-size: 11px;
-  font-variant-numeric: tabular-nums;
+  padding: 14px;
 }
-input[type=range] {
-  display: block;
-  width: 100%;
-  accent-color: var(--accent);
-  margin: 12px 0 16px;
-  min-height: 24px;
-}
-.control-buttons { display: flex; gap: 10px; }
-.btn {
-  border: 1px solid var(--border);
-  background: var(--panel2);
-  color: var(--text);
-  border-radius: 12px;
-  padding: 13px 15px;
-  min-height: 47px;
-  font-size: 13px;
-  font-weight: 650;
-}
-.btn:active { transform: scale(.985); }
-.btn.primary {
-  background: var(--accent);
-  color: var(--accentText);
-  border-color: var(--accent);
-}
-.btn.wide { flex: 1; }
-.btn:disabled { opacity: .4; cursor: not-allowed; }
 .field {
   width: 100%;
   border: 1px solid var(--border);
@@ -179,7 +161,22 @@ input[type=range] {
   outline: none;
 }
 .field:focus { border-color: var(--accent); }
-.video-form { display: flex; flex-direction: column; gap: 10px; padding: 14px; }
+.btn {
+  border: 1px solid var(--border);
+  background: #22232e;
+  color: var(--text);
+  border-radius: 12px;
+  padding: 13px 15px;
+  min-height: 47px;
+  font-size: 13px;
+  font-weight: 650;
+  cursor: pointer;
+}
+.btn.primary {
+  background: var(--accent);
+  color: #191422;
+  border-color: var(--accent);
+}
 .hint {
   color: var(--muted);
   font-size: 12px;
@@ -196,8 +193,15 @@ input[type=range] {
   line-height: 1.6;
   padding: 12px;
   margin-bottom: 14px;
+  overflow-wrap: anywhere;
 }
 .notice.show { display: block; }
+.status-card {
+  padding: 14px;
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--muted);
+}
 .footer {
   color: #737584;
   text-align: center;
@@ -208,11 +212,10 @@ input[type=range] {
   .app { padding-left: 11px; padding-right: 11px; }
   .brand h1 { font-size: 18px; }
   .connection { font-size: 10px; }
-  .control-buttons { gap: 7px; }
-  .btn { padding: 12px 10px; }
 }
 </style>
 </head>
+
 <body>
 <main class="app">
   <header class="header">
@@ -235,29 +238,17 @@ input[type=range] {
       <div class="player-placeholder" id="placeholder">
         <div class="play-symbol">▶</div>
         <div>Belum ada video</div>
-        <div style="font-size:12px">Tambahkan tautan YouTube di bawah</div>
+        <div style="font-size:12px">
+          Tambahkan tautan YouTube di bawah
+        </div>
       </div>
     </div>
     <div class="player-meta">
-      <div class="video-title" id="videoTitle">Ruang tontonan bersama</div>
+      <div class="video-title" id="videoTitle">
+        Ruang tontonan bersama
+      </div>
       <div class="video-subtitle" id="videoSubtitle">
         Semua pengunjung berbagi video yang sama
-      </div>
-    </div>
-    <div class="controls">
-      <div class="time-row">
-        <span id="currentTime">0:00</span>
-        <span id="duration">0:00</span>
-      </div>
-      <input id="seekBar" type="range" min="0" max="1000" value="0"
-             aria-label="Posisi video" disabled>
-      <div class="control-buttons">
-        <button class="btn primary wide" id="playButton" disabled>
-          ▶ Putar
-        </button>
-        <button class="btn" id="syncButton">
-          Sinkronkan
-        </button>
       </div>
     </div>
   </section>
@@ -265,22 +256,29 @@ input[type=range] {
   <div class="section-title">Ganti video untuk semua</div>
   <section class="card">
     <form class="video-form" id="videoForm">
-      <input class="field" id="videoUrl" type="url"
+      <input class="field" id="videoUrl" type="text"
              placeholder="Tempel tautan YouTube..."
              autocomplete="url" required>
       <button class="btn primary" type="submit">
-        Putar video ini untuk semua
+        Muat video untuk semua
       </button>
     </form>
+  </section>
+
+  <div class="section-title">Status sinkronisasi</div>
+  <section class="card status-card">
+    <div id="syncStatus">Menunggu status server...</div>
+    <div id="playbackStatus">Status pemutar: menunggu video</div>
   </section>
 
   <div class="section-title">Cara menggunakan</div>
   <section class="card" style="padding:15px">
     <div class="hint" style="margin:0">
-      1. Tempel tautan YouTube dan tekan tombol putar untuk semua.<br>
-      2. Tekan Putar atau Jeda untuk mengontrol semua perangkat.<br>
-      3. Gunakan bilah posisi untuk melompat ke bagian video tertentu.<br>
-      4. Jika baru membuka halaman, tekan Sinkronkan bila posisi belum cocok.
+      1. Tempel tautan YouTube lalu tekan Muat video untuk semua.<br>
+      2. Gunakan tombol Play/Pause asli pada pemutar YouTube.<br>
+      3. Geser timeline YouTube untuk berpindah ke bagian video.<br>
+      4. Perubahan pemutaran akan dikirim ke perangkat lain.<br>
+      5. Pada HP, jika video belum mulai, ketuk Play pada player.
     </div>
   </section>
 
@@ -290,27 +288,34 @@ input[type=range] {
 <script>
 var player = null;
 var playerReady = false;
-var loadedVideoId = "";
-var currentState = null;
 var socket = null;
 var reconnectTimer = null;
+var currentState = null;
+var loadedVideoId = "";
 var serverClockOffset = 0;
-var applyingRemote = false;
-var draggingSeek = false;
-var lastAppliedRevision = -1;
-var activationTest = false;
-var activationUntil = 0;
+
+var applyingRemoteUntil = 0;
+var lastObservedPosition = null;
+var lastObservedClock = 0;
+var lastObservedPlayerState = -1;
+var lastPublishedAt = 0;
+var lastCorrectionAt = 0;
+var draggingOrSeeking = false;
+
+var SEEK_THRESHOLD = 2.0;
+var PLAYING_DRIFT_THRESHOLD = 2.5;
+var PAUSED_DRIFT_THRESHOLD = 1.0;
+var PUBLISH_COOLDOWN_MS = 700;
+var CORRECTION_COOLDOWN_MS = 1800;
 
 var statusDot = document.getElementById("statusDot");
 var connectionText = document.getElementById("connectionText");
 var notice = document.getElementById("notice");
 var placeholder = document.getElementById("placeholder");
-var playButton = document.getElementById("playButton");
-var seekBar = document.getElementById("seekBar");
-var currentTimeLabel = document.getElementById("currentTime");
-var durationLabel = document.getElementById("duration");
 var videoTitle = document.getElementById("videoTitle");
 var videoSubtitle = document.getElementById("videoSubtitle");
+var syncStatus = document.getElementById("syncStatus");
+var playbackStatus = document.getElementById("playbackStatus");
 
 function showNotice(message) {
   notice.textContent = message;
@@ -332,29 +337,26 @@ function formatTime(seconds) {
   var hours = Math.floor(seconds / 3600);
   var minutes = Math.floor((seconds % 3600) / 60);
   var secs = seconds % 60;
+
   if (hours > 0) {
-    return hours + ":" + String(minutes).padStart(2, "0") + ":" +
-           String(secs).padStart(2, "0");
+    return hours + ":" + String(minutes).padStart(2, "0") +
+      ":" + String(secs).padStart(2, "0");
   }
+
   return minutes + ":" + String(secs).padStart(2, "0");
 }
 
 function getVideoId(input) {
   try {
     var value = String(input || "").trim();
-
     if (!value) return "";
 
-    // Mendukung URL yang ditempel tanpa protokol.
     if (!/^https?:\/\//i.test(value)) {
       value = "https://" + value;
     }
 
     var url = new URL(value);
-    var host = url.hostname
-      .toLowerCase()
-      .replace(/^www\./, "");
-
+    var host = url.hostname.toLowerCase().replace(/^www\./, "");
     var id = "";
 
     if (host === "youtu.be") {
@@ -379,29 +381,27 @@ function getVideoId(input) {
       }
     }
 
-    // Validasi ID video YouTube.
     id = id.split(/[?&#]/)[0];
-
     return /^[A-Za-z0-9_-]{11}$/.test(id) ? id : "";
   } catch (error) {
-    console.error("Gagal membaca tautan YouTube:", error);
     return "";
   }
 }
 
 function sendMessage(message) {
   if (!socket || socket.readyState !== WebSocket.OPEN) {
-    showNotice("Belum terhubung ke server. Tunggu koneksi tersambung lalu coba lagi.");
+    showNotice("Koneksi server terputus. Tunggu hingga tersambung kembali.");
     return false;
   }
+
   socket.send(JSON.stringify(message));
   return true;
 }
 
 function connectSocket() {
   if (socket && (
-      socket.readyState === WebSocket.OPEN ||
-      socket.readyState === WebSocket.CONNECTING
+    socket.readyState === WebSocket.OPEN ||
+    socket.readyState === WebSocket.CONNECTING
   )) {
     return;
   }
@@ -419,20 +419,23 @@ function connectSocket() {
   socket.onmessage = function(event) {
     try {
       var message = JSON.parse(event.data);
+
       if (typeof message.serverNow === "number") {
         serverClockOffset = message.serverNow - Date.now();
       }
+
       if (message.type === "state" && message.state) {
         currentState = message.state;
         applyState(currentState);
       }
-    } catch (e) {
-      console.error("Pesan server tidak valid", e);
+    } catch (error) {
+      console.error("Pesan server tidak valid:", error);
     }
   };
 
   socket.onclose = function() {
     setConnection(false);
+
     if (!reconnectTimer) {
       reconnectTimer = setTimeout(function() {
         reconnectTimer = null;
@@ -448,12 +451,48 @@ function connectSocket() {
 
 function authoritativePosition(state) {
   if (!state) return 0;
-  var position = Number(state.position) || 0;
+
+  var position = Math.max(0, Number(state.position) || 0);
+
   if (state.playing) {
     var serverNow = Date.now() + serverClockOffset;
-    position += Math.max(0, serverNow - state.updatedAt) / 1000;
+    var elapsed = Math.max(0, serverNow - Number(state.updatedAt || serverNow));
+    position += elapsed / 1000;
   }
+
   return position;
+}
+
+function playerStateName(state) {
+  if (!window.YT) return "Menunggu YouTube";
+
+  switch (state) {
+    case YT.PlayerState.PLAYING: return "Memutar";
+    case YT.PlayerState.PAUSED: return "Dijeda";
+    case YT.PlayerState.BUFFERING: return "Buffering";
+    case YT.PlayerState.ENDED: return "Selesai";
+    case YT.PlayerState.CUED: return "Siap diputar";
+    default: return "Memuat";
+  }
+}
+
+function armRemoteGuard(milliseconds) {
+  applyingRemoteUntil = Math.max(
+    applyingRemoteUntil,
+    performance.now() + milliseconds
+  );
+}
+
+function rememberPlayerPosition() {
+  if (!playerReady || !player) return;
+
+  try {
+    lastObservedPosition = player.getCurrentTime() || 0;
+    lastObservedClock = performance.now();
+    lastObservedPlayerState = player.getPlayerState();
+  } catch (error) {
+    // Player belum siap sepenuhnya.
+  }
 }
 
 function applyState(state) {
@@ -463,81 +502,176 @@ function applyState(state) {
     placeholder.style.display = "flex";
     videoTitle.textContent = "Ruang tontonan bersama";
     videoSubtitle.textContent = "Belum ada video yang dipilih";
-    playButton.disabled = true;
-    seekBar.disabled = true;
+    syncStatus.textContent = "Menunggu video dari peserta...";
     return;
   }
 
   placeholder.style.display = "none";
-  playButton.disabled = false;
-  seekBar.disabled = false;
+  videoTitle.textContent = "Video YouTube";
+  videoSubtitle.textContent =
+    "Video yang sama untuk semua peserta";
 
-  if (state.videoId !== loadedVideoId) {
-    loadedVideoId = state.videoId;
-    videoTitle.textContent = "Video YouTube";
-    videoSubtitle.textContent = "Video telah diperbarui untuk semua peserta";
-
-    if (playerReady && player) {
-      applyingRemote = true;
-      var target = authoritativePosition(state);
-
-      if (state.playing) {
-        player.loadVideoById({
-          videoId: state.videoId,
-          startSeconds: target
-        });
-      } else {
-        player.cueVideoById({
-          videoId: state.videoId,
-          startSeconds: target
-        });
-      }
-
-      setTimeout(function() {
-        applyingRemote = false;
-      }, 1200);
-    }
-    lastAppliedRevision = state.revision;
+  if (!playerReady || !player) {
+    return;
   }
-
-  if (!playerReady || !player) return;
 
   var targetPosition = authoritativePosition(state);
-  var playerState = player.getPlayerState();
+  var now = performance.now();
 
-  applyingRemote = true;
+  // Muat video baru satu kali. Tunggu pemutar siap sebelum
+  // menerapkan koreksi posisi berikutnya.
+  if (loadedVideoId !== state.videoId) {
+    loadedVideoId = state.videoId;
+    armRemoteGuard(3000);
 
-  if (state.playing) {
-    if (playerState !== YT.PlayerState.PLAYING &&
-        playerState !== YT.PlayerState.BUFFERING) {
-      player.playVideo();
+    if (state.playing) {
+      player.loadVideoById({
+        videoId: state.videoId,
+        startSeconds: targetPosition
+      });
+    } else {
+      player.cueVideoById({
+        videoId: state.videoId,
+        startSeconds: targetPosition
+      });
     }
-  } else if (playerState === YT.PlayerState.PLAYING ||
-             playerState === YT.PlayerState.BUFFERING) {
-    player.pauseVideo();
+
+    syncStatus.textContent = "Memuat video bersama...";
+    return;
   }
 
-  var localPosition = player.getCurrentTime() || 0;
-  if (Math.abs(localPosition - targetPosition) > 1.8) {
-    player.seekTo(targetPosition, true);
+  try {
+    var localState = player.getPlayerState();
+    var localPosition = player.getCurrentTime() || 0;
+
+    // Jangan koreksi posisi saat buffering atau belum dimulai.
+    if (
+      localState === YT.PlayerState.BUFFERING ||
+      localState === YT.PlayerState.UNSTARTED
+    ) {
+      syncStatus.textContent = "Menunggu pemutar siap...";
+      return;
+    }
+
+    var drift = Math.abs(localPosition - targetPosition);
+    var cooldownPassed =
+      now - lastCorrectionAt >= CORRECTION_COOLDOWN_MS;
+
+    if (
+      drift > (state.playing
+        ? PLAYING_DRIFT_THRESHOLD
+        : PAUSED_DRIFT_THRESHOLD) &&
+      cooldownPassed
+    ) {
+      armRemoteGuard(1600);
+      lastCorrectionAt = now;
+      player.seekTo(targetPosition, true);
+    }
+
+    if (state.playing) {
+      if (localState !== YT.PlayerState.PLAYING) {
+        armRemoteGuard(2000);
+        player.playVideo();
+      }
+    } else {
+      if (
+        localState === YT.PlayerState.PLAYING ||
+        localState === YT.PlayerState.BUFFERING
+      ) {
+        armRemoteGuard(1600);
+        player.pauseVideo();
+      }
+    }
+
+    syncStatus.textContent =
+      "Status bersama: " + (state.playing ? "Memutar" : "Dijeda") +
+      " · Posisi acuan " + formatTime(targetPosition);
+  } catch (error) {
+    console.warn("Gagal menerapkan status:", error);
+  }
+}
+
+function publishPlayerState(playing, position) {
+  if (!currentState || !currentState.videoId || !playerReady) return;
+  if (performance.now() < applyingRemoteUntil) return;
+
+  var now = performance.now();
+  if (now - lastPublishedAt < PUBLISH_COOLDOWN_MS) return;
+
+  lastPublishedAt = now;
+
+  sendMessage({
+    type: playing ? "play" : "pause",
+    position: Math.max(0, Number(position) || 0)
+  });
+}
+
+function onPlayerStateChange(event) {
+  if (!playerReady || !player) return;
+
+  var state = event.data;
+  var position = 0;
+
+  try {
+    position = player.getCurrentTime() || 0;
+  } catch (error) {}
+
+  playbackStatus.textContent =
+    "Status pemutar: " + playerStateName(state) +
+    " · " + formatTime(position);
+
+  if (state === YT.PlayerState.PLAYING) {
+    placeholder.style.display = "none";
   }
 
-  setTimeout(function() {
-    applyingRemote = false;
-  }, 350);
+  // Perubahan yang disebabkan server tidak boleh dikirim
+  // kembali sebagai perintah baru.
+  if (performance.now() < applyingRemoteUntil) {
+    rememberPlayerPosition();
+    return;
+  }
 
-  lastAppliedRevision = state.revision;
+  if (
+    state === YT.PlayerState.PLAYING ||
+    state === YT.PlayerState.PAUSED
+  ) {
+    publishPlayerState(
+      state === YT.PlayerState.PLAYING,
+      position
+    );
+  }
+
+  rememberPlayerPosition();
+}
+
+function onPlayerReady() {
+  playerReady = true;
+
+  if (currentState && currentState.videoId) {
+    // Paksa applyState memuat video yang ada di room.
+    loadedVideoId = "";
+    applyState(currentState);
+  }
+
+  rememberPlayerPosition();
+}
+
+function onPlayerError(event) {
+  showNotice(
+    "YouTube tidak dapat memutar video ini. " +
+    "Coba video lain yang mengizinkan pemutaran melalui embed."
+  );
+  console.error("YouTube player error:", event.data);
 }
 
 window.onYouTubeIframeAPIReady = function() {
   player = new YT.Player("player", {
     width: "100%",
     height: "100%",
-    videoId: "",
     playerVars: {
       autoplay: 0,
-      controls: 0,
-      disablekb: 1,
+      controls: 1,
+      disablekb: 0,
       fs: 1,
       playsinline: 1,
       rel: 0,
@@ -545,30 +679,9 @@ window.onYouTubeIframeAPIReady = function() {
       origin: location.origin
     },
     events: {
-      onReady: function() {
-        playerReady = true;
-        if (currentState) applyState(currentState);
-      },
-      onStateChange: function(event) {
-        if (event.data === YT.PlayerState.PLAYING) {
-          placeholder.style.display = "none";
-        }
-
-        if (event.data === YT.PlayerState.ENDED &&
-            Date.now() > activationUntil &&
-            !applyingRemote) {
-          sendMessage({
-            type: "pause",
-            position: player.getCurrentTime() || 0
-          });
-        }
-      },
-      onError: function(event) {
-        showNotice(
-          "YouTube tidak dapat memutar video ini. Coba video lain yang mengizinkan pemutaran melalui embed."
-        );
-        console.error("YouTube player error:", event.data);
-      }
+      onReady: onPlayerReady,
+      onStateChange: onPlayerStateChange,
+      onError: onPlayerError
     }
   });
 };
@@ -577,34 +690,7 @@ var apiScript = document.createElement("script");
 apiScript.src = "https://www.youtube.com/iframe_api";
 document.head.appendChild(apiScript);
 
-playButton.addEventListener("click", function() {
-  if (!currentState || !currentState.videoId || !playerReady) {
-    showNotice("Tunggu pemutar YouTube siap terlebih dahulu.");
-    return;
-  }
-
-  var state = player.getPlayerState();
-  var position = player.getCurrentTime() || 0;
-
-  if (state === YT.PlayerState.PLAYING ||
-      (currentState.playing && state === YT.PlayerState.BUFFERING)) {
-    sendMessage({ type: "pause", position: position });
-  } else {
-    // Klik pengguna merupakan tindakan langsung untuk mengizinkan play.
-    player.playVideo();
-    sendMessage({ type: "play", position: position });
-  }
-});
-
-document.getElementById("syncButton").addEventListener("click", function() {
-  if (!currentState) {
-    showNotice("Menunggu status room dari server.");
-    return;
-  }
-  applyState(currentState);
-  hideNotice();
-});
-
+// Muat video bersama dari input.
 document.getElementById("videoForm").addEventListener("submit", function(event) {
   event.preventDefault();
 
@@ -612,7 +698,7 @@ document.getElementById("videoForm").addEventListener("submit", function(event) 
   var videoId = getVideoId(input.value);
 
   if (!videoId) {
-    showNotice("Tautan tidak dikenali. Gunakan tautan video YouTube yang valid.");
+    showNotice("Tautan tidak dikenali. Masukkan URL video YouTube yang valid.");
     return;
   }
 
@@ -622,71 +708,78 @@ document.getElementById("videoForm").addEventListener("submit", function(event) 
   }
 });
 
-seekBar.addEventListener("input", function() {
-  var duration = playerReady && player ? player.getDuration() || 0 : 0;
-  var preview = duration * Number(seekBar.value) / 1000;
-  currentTimeLabel.textContent = formatTime(preview);
-});
-
-seekBar.addEventListener("pointerdown", function() {
-  draggingSeek = true;
-});
-
-function commitSeek() {
-  if (!playerReady || !player || !currentState || !currentState.videoId) {
-    draggingSeek = false;
-    return;
-  }
-
-  var duration = player.getDuration() || 0;
-  var target = duration * Number(seekBar.value) / 1000;
-
-  player.seekTo(target, true);
-  sendMessage({ type: "seek", position: target });
-  draggingSeek = false;
-}
-
-seekBar.addEventListener("change", commitSeek);
-seekBar.addEventListener("pointerup", function() {
-  if (draggingSeek) commitSeek();
-});
-
+// Polling digunakan untuk mendeteksi perpindahan timeline
+// yang dilakukan langsung pada kontrol asli YouTube.
 setInterval(function() {
   if (!playerReady || !player) return;
 
   try {
-    var current = player.getCurrentTime() || 0;
-    var duration = player.getDuration() || 0;
+    var now = performance.now();
+    var position = player.getCurrentTime() || 0;
+    var state = player.getPlayerState();
 
-    if (!draggingSeek) {
-      currentTimeLabel.textContent = formatTime(current);
-      if (duration > 0) {
-        seekBar.value = String(Math.min(1000, current / duration * 1000));
+    playbackStatus.textContent =
+      "Status pemutar: " + playerStateName(state) +
+      " · " + formatTime(position);
+
+    if (
+      lastObservedPosition !== null &&
+      lastObservedClock > 0 &&
+      now >= applyingRemoteUntil &&
+      state !== YT.PlayerState.BUFFERING &&
+      lastObservedPlayerState !== YT.PlayerState.BUFFERING
+    ) {
+      var elapsed = (now - lastObservedClock) / 1000;
+      var expected = lastObservedPosition;
+
+      if (lastObservedPlayerState === YT.PlayerState.PLAYING) {
+        expected += elapsed;
       }
-    }
 
-    durationLabel.textContent = formatTime(duration);
+      var jump = position - expected;
 
-    if (currentState && currentState.videoId) {
-      var playerState = player.getPlayerState();
-      playButton.textContent =
-        playerState === YT.PlayerState.PLAYING ? "Ⅱ Jeda untuk semua" : "▶ Putar untuk semua";
-
-      // Koreksi posisi lokal terhadap jam server.
-      // Jangan mengirim pesan dari timer, agar beberapa peserta
-      // tidak saling menimpa status room.
-      if (currentState.playing && !draggingSeek &&
-          playerState === YT.PlayerState.PLAYING) {
-        var target = authoritativePosition(currentState);
-        if (Math.abs(current - target) > 2.2) {
-          player.seekTo(target, true);
+      if (Math.abs(jump) >= SEEK_THRESHOLD) {
+        // Pengguna kemungkinan menggeser timeline player.
+        if (currentState && currentState.videoId) {
+          sendMessage({
+            type: "seek",
+            position: position
+          });
         }
       }
     }
-  } catch (e) {
-    // Pemutar mungkin belum selesai diinisialisasi.
+
+    // Koreksi ringan jika posisi lokal terlalu jauh dari acuan.
+    if (
+      currentState &&
+      currentState.videoId &&
+      state !== YT.PlayerState.BUFFERING &&
+      now >= applyingRemoteUntil
+    ) {
+      var target = authoritativePosition(currentState);
+      var drift = Math.abs(position - target);
+
+      var threshold = currentState.playing
+        ? PLAYING_DRIFT_THRESHOLD
+        : PAUSED_DRIFT_THRESHOLD;
+
+      if (
+        drift > threshold &&
+        now - lastCorrectionAt >= CORRECTION_COOLDOWN_MS
+      ) {
+        lastCorrectionAt = now;
+        armRemoteGuard(1500);
+        player.seekTo(target, true);
+      }
+    }
+
+    lastObservedPosition = position;
+    lastObservedClock = now;
+    lastObservedPlayerState = state;
+  } catch (error) {
+    // Player bisa belum siap atau sedang berpindah video.
   }
-}, 1500);
+}, 500);
 
 connectSocket();
 </script>
@@ -748,7 +841,7 @@ export class WatchRoom extends DurableObject {
 
     server.send(JSON.stringify({
       type: "state",
-      state: state,
+      state,
       serverNow: Date.now()
     }));
 
@@ -762,6 +855,7 @@ export class WatchRoom extends DurableObject {
     if (typeof message !== "string") return;
 
     let input;
+
     try {
       input = JSON.parse(message);
     } catch {
@@ -804,7 +898,7 @@ export class WatchRoom extends DurableObject {
       } else if (input.type === "pause") {
         state.playing = false;
       }
-      // Seek mempertahankan status play/pause yang sudah ada.
+      // Seek mempertahankan status play/pause.
     } else {
       return;
     }
@@ -815,7 +909,7 @@ export class WatchRoom extends DurableObject {
 
     const payload = JSON.stringify({
       type: "state",
-      state: state,
+      state,
       serverNow: Date.now()
     });
 
@@ -831,16 +925,12 @@ export class WatchRoom extends DurableObject {
   async webSocketClose(ws) {
     try {
       ws.close();
-    } catch {
-      // Tidak perlu tindakan tambahan.
-    }
+    } catch {}
   }
 
   async webSocketError(ws) {
     try {
       ws.close();
-    } catch {
-      // Tidak perlu tindakan tambahan.
-    }
+    } catch {}
   }
 }
